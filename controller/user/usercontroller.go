@@ -17,9 +17,36 @@ func User(app *config.Env) http.Handler {
 	r.Get("/login", logInHandler(app))
 	r.Post("/loginpost", LoginPostHandler(app))
 	r.Get("/signup", SignUpHandler(app))
-	r.Post("/register", RegisterHandler(app))      //this method receives signUp form
-	r.Get("/userAccount", userAccountHandler(app)) // done by Taylor
+	r.Post("/register", RegisterHandler(app))             //this method receives signUp form
+	r.Get("/userAccount/{code}", userAccountHandler(app)) // done by Taylor
+	r.Post("/useraccount/register", RegisterUserAccount(app))
 	return r
+}
+
+func RegisterUserAccount(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		myuser := domain.User{} //creating an empty object
+		r.ParseForm()           //Now we grabbing the contents of the form by call the name of the input(html)
+		name := r.PostFormValue("name")
+		email := r.PostFormValue("email")
+		surname := r.PostFormValue("surname")
+		cellphone := r.PostFormValue("cellphone")
+		if email != "" {
+			myuser = domain.User{email, name, surname, cellphone}
+			user, err := user.UpdateUser(myuser)
+			if err != nil { //when an error occurs when signing up
+				app.Session.Put(r.Context(), "userMessage", "sign_up_error")
+				http.Redirect(w, r, "/user/signup", 301)
+				return
+			} else {
+				app.Session.Remove(r.Context(), "userEmail")
+				app.Session.Put(r.Context(), "userEmail", user.Email)
+				app.Session.Put(r.Context(), "userMessage", "sign_up_success")
+				http.Redirect(w, r, "/", 301)
+				return
+			}
+		}
+	}
 }
 
 type Message struct {
@@ -75,6 +102,9 @@ func GetMessage(Type string) Message {
 		return Message{text, "warning"}
 	case "delete_successful": //this error should be reported on user_post page
 		text := "Successful delete of your book post picture"
+		return Message{text, "info"}
+	case "register_error": //this error should be reported on user_post page
+		text := "Unknown error when registering, please try again"
 		return Message{text, "info"}
 
 	}
@@ -214,6 +244,28 @@ func homeHandler(app *config.Env) http.HandlerFunc {
 func userAccountHandler(app *config.Env) http.HandlerFunc { //done by Taylor
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("voila we are in")
+		code := chi.URLParam(r, "code")
+		userAccount, err := user.ReadWithpassword(code)
+		if err != nil { //when an error occurs when
+			app.Session.Put(r.Context(), "userMessage", "register_error")
+			http.Redirect(w, r, "/user/signup", 301)
+			return
+		} else if userAccount.Email == "" {
+			app.Session.Put(r.Context(), "userMessage", "register_error")
+			http.Redirect(w, r, "/user/signup", 301)
+			return
+		}
+		user, err := user.ReadUser(userAccount.Email)
+		if err != nil { //when an error occurs
+			app.Session.Put(r.Context(), "userMessage", "register_error")
+			http.Redirect(w, r, "/user/signup", 301)
+			return
+		}
+		type PageData struct {
+			User domain.User
+		}
+
+		data := PageData{user}
 		files := []string{
 			app.Path + "user/userAccount.html",
 			app.Path + "template/navigator.html",
@@ -224,7 +276,7 @@ func userAccountHandler(app *config.Env) http.HandlerFunc { //done by Taylor
 			app.ErrorLog.Println(err.Error())
 			return
 		}
-		err = ts.Execute(w, nil)
+		err = ts.Execute(w, data)
 		if err != nil {
 			app.ErrorLog.Println(err.Error())
 		}

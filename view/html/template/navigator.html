@@ -1,44 +1,12 @@
 {{define "navigator"}}
     <header class="header_area">
-        <div class="top_menu">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="float-left">
-                            <p>Phone: +27 78 014 0396</p>
-                            <p>email: admin@store.com</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="float-right">
-                            <ul class="right_side">
-                                <li>
-                                    <a href="cart.html">
-                                        gift card
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="tracking.html">
-                                        track order
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        Contact Us
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="main_menu">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-light w-100">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand logo_h" href="/">
-                        <img src="../../assets/img/logo.png" alt="" />
+                        <img src="../../assets/img/Bookverse4-edited.png" alt="" />
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +24,7 @@
                                     </li>
                                     <li class="nav-item submenu dropdown">
                                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                           aria-expanded="false">Book</a>
+                                           aria-expanded="false">Books</a>
                                         <ul class="dropdown-menu">
                                             <li class="nav-item">
                                                 <a class="nav-link" href="/book/category">Shop Category</a>
@@ -71,18 +39,18 @@
                                     </li>
                                     <li class="nav-item submenu dropdown">
                                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                           aria-expanded="false">Pages</a>
+                                           aria-expanded="false">Member</a>
                                         <ul class="dropdown-menu">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="tracking.html">Tracking</a>
+                                                <a class="nav-link" href="#">Tracking</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="elements.html">Elements</a>
+                                                <a class="nav-link" href="#">Elements</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">Contact</a>
+                                        <a class="nav-link" href="#">Contact</a>
                                     </li>
                                         {{if  .User.Name}}
                                             <li class="nav-item submenu dropdown">

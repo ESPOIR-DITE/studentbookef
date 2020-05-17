@@ -32,3 +32,15 @@ func ReadAllLog() ([]domain.UserAccount, error) {
 	}
 	return entity, nil
 }
+func ReadWithpassword(code string) (domain.User, error) {
+	var entity domain.User
+	resp, _ := api.Rest().Get(useraccountURL + "readwithcode?id=" + code)
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
