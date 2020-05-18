@@ -10,8 +10,7 @@ import (
 * Port: 9099 domain: bookstore
 *It also set the type of messaging protocol in our case we will be using JSON
 **/
-//const BASE_URL string = "http://localhost:8089/sts/" //connection port
-const BASE_URL string = "http://102.130.119.251:8089/sts/" //connection port
+const BASE_URL string = "http://localhost:8089/sts/" //connection port
 
 func Rest() *resty.Request {
 	return resty.R().SetAuthToken("").

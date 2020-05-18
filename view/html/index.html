@@ -2,303 +2,318 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="icon" href="../assets/img/favicon.png" type="image/png" />
-  <title>BookVerse</title>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap.css" />
-  <link rel="stylesheet" href="../assets/vendors/linericon/style.css" />
-  <link rel="stylesheet" href="../assets/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="../assets/css/themify-icons.css" />
-  <link rel="stylesheet" href="../assets/css/flaticon.css" />
-  <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.carousel.min.css" />
-  <link rel="stylesheet" href="../assets/vendors/lightbox/simpleLightbox.css" />
-  <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css" />
-  <link rel="stylesheet" href="../assets/vendors/animate-css/animate.css" />
-  <link rel="stylesheet" href="../assets/vendors/jquery-ui/jquery-ui.css" />
-  <!-- main css -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/responsive.css" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="icon" href="../assets/img/favicon.png" type="image/png"/>
+    <title>BookVerse</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../assets/vendors/linericon/style.css"/>
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../assets/css/themify-icons.css"/>
+    <link rel="stylesheet" href="../assets/css/flaticon.css"/>
+    <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="../assets/vendors/lightbox/simpleLightbox.css"/>
+    <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css"/>
+    <link rel="stylesheet" href="../assets/vendors/animate-css/animate.css"/>
+    <link rel="stylesheet" href="../assets/vendors/jquery-ui/jquery-ui.css"/>
+    <!-- main css -->
+    <link rel="stylesheet" href="../assets/css/style.css"/>
+    <link rel="stylesheet" href="../assets/css/responsive.css"/>
 </head>
 
 <body>
-  <!--================Header Menu Area =================-->
-  {{template "navigator" .}}
-  <!--================Header Menu Area =================-->
+<!--================Header Menu Area =================-->
+{{template "navigator" .}}
+<!--================Header Menu Area =================-->
 
-  <!--================Home Banner Area =================-->
-  <section class="home_banner_area mb-40">
+<!--================Home Banner Area =================-->
+<section class="home_banner_area mb-40">
     <div class="banner_inner d-flex align-items-center">
-      <div class="container">
-        <div class="banner_content row">
-          <div class="col-lg-12">
-            <p class="sub text-uppercase">women Collection</p>
-            <h3><span>Grow</span> Your <br />Personal <br /><span>intellect</span></h3>
-            <h4>Buy, read sell repeat!</h4>
-            <a class="main_btn mt-40" href="#">View Collection</a>
-          </div>
+        <div class="container">
+            <div class="banner_content row">
+                <div class="col-lg-12">
+                    <p class="sub text-uppercase">women Collection</p>
+                    <h3><span>Grow</span> Your <br/>Personal <br/><span>intellect</span></h3>
+                    <h4>Buy, read sell repeat!</h4>
+                    <a class="main_btn mt-40" href="#">View Collection</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!--================End Home Banner Area =================-->
-
-  <!-- Start feature Area -->
-  <div class="main_title">
+</section>
+<!--================End Home Banner Area =================-->
+{{if .RegistrationNotic}}
+    <div class="container">
+        <div class="row">
+            <div class="alert danger text-center col-md-12">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <a href="#">
+                    <span style="color:#f9f9ff">Please consider to confirm your registration to be able for posting your books {{.User.PhoneNumber}}</span></a>
+            </div>
+        </div>
+    </div>
+{{end}}
+<!-- Start feature Area -->
+<div class="main_title">
     <h2 style="color:#ee9900;"><span>! We are under construction !</span></h2>
     <p> We will be official soon, Thanks for your support</p>
-  </div>
+</div>
 
 
-  <section class="feature-area section_gap_bottom_custom">
+<section class="feature-area section_gap_bottom_custom">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-6">
-          <div class="single-feature">
-            <a href="#" class="title">
-              <i class="flaticon-money"></i>
-              <h3>Money back gurantee</h3>
-            </a>
-            <p>Shall open divide a one</p>
-          </div>
-        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="single-feature">
+                    <a href="#" class="title">
+                        <i class="flaticon-money"></i>
+                        <h3>Money back gurantee</h3>
+                    </a>
+                    <p>Shall open divide a one</p>
+                </div>
+            </div>
 
-        <div class="col-lg-3 col-md-6">
-          <div class="single-feature">
-            <a href="#" class="title">
-              <i class="flaticon-truck"></i>
-              <h3>Free Delivery</h3>
-            </a>
-            <p>Shall open divide a one</p>
-          </div>
-        </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="single-feature">
+                    <a href="#" class="title">
+                        <i class="flaticon-truck"></i>
+                        <h3>Free Delivery</h3>
+                    </a>
+                    <p>Shall open divide a one</p>
+                </div>
+            </div>
 
-        <div class="col-lg-3 col-md-6">
-          <div class="single-feature">
-            <a href="#" class="title">
-              <i class="flaticon-support"></i>
-              <h3>Alway support</h3>
-            </a>
-            <p>Shall open divide a one</p>
-          </div>
-        </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="single-feature">
+                    <a href="#" class="title">
+                        <i class="flaticon-support"></i>
+                        <h3>Alway support</h3>
+                    </a>
+                    <p>Shall open divide a one</p>
+                </div>
+            </div>
 
-        <div class="col-lg-3 col-md-6">
-          <div class="single-feature">
-            <a href="#" class="title">
-              <i class="flaticon-blockchain"></i>
-              <h3>Secure payment</h3>
-            </a>
-            <p>Shall open divide a one</p>
-          </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="single-feature">
+                    <a href="#" class="title">
+                        <i class="flaticon-blockchain"></i>
+                        <h3>Secure payment</h3>
+                    </a>
+                    <p>Shall open divide a one</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- End feature Area -->
+</section>
+<!-- End feature Area -->
 
-  <!--================ Feature Product Area =================-->
-  <section class="feature_product_area section_gap_bottom_custom">
+<!--================ Feature Product Area =================-->
+<section class="feature_product_area section_gap_bottom_custom">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="main_title">
-            <h2><span>Featured product</span></h2>
-            <p>Bring called seed first of third give itself now ment</p>
-          </div>
-        </div>
-      </div>
-<!-- this is where is the magic:
-      BookPostDetails is a List of many things(pictures, book deatails....)
-      Here we are going to loop it until it;s reveal everything that it contains.
-      we are first checking  (if .Picture.Id) this means if there is something in .Picture.Id thant  display the picture.
-      remember that to display the picture , i have converted the byte array into String that i saved in Id.
-      -->
-      <div class="row">
-{{with .BookPostDetails}}
-        {{range .}}
-        <div class="col-lg-4 col-md-6">
-          <div class="single-product">
-            <div class="product-img">
-              <img class="card-img" style="width:200px;height:200px;"
-                   id='base64image'
-                      {{if .Picture.Id}}
-                   src='data:image/jpeg;base64,{{.Picture.Id}}' alt=""
-                     {{else}}
-                       src='../assets/img/product/feature-product/f-p-1.jpg'
-                        {{end}}
-              />
-              <div class="p_icon">
-                <a href="/book/details/{{.Book.Id}}">
-                  <i class="ti-eye"></i>
-                </a>
-                <a href="#">
-                  <i class="ti-heart"></i>
-                </a>
-                <a href="#">
-                  <i class="ti-shopping-cart"></i>
-                </a>
-              </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="main_title">
+                    <h2><span>Featured product</span></h2>
+                    <p>Bring called seed first of third give itself now ment</p>
+                </div>
             </div>
-            <div class="product-btm">
-              <a href="#" class="d-block">
-                <h4>{{.Book.Title}} &nbsp; {{.Book.Edition}} </h4>
-                <h5>{{.Location.Title}}</h5>
-              </a>
-              <div class="mt-3">
-                <span class="mr-4">R &nbsp;{{.Book.Price}}</span>
-{{/*                <del>$35.00</del>*/}}
-              </div>
-            </div>
-          </div>
         </div>
-{{end}}
-{{end}}
-      </div>
+        <!-- this is where is the magic:
+              BookPostDetails is a List of many things(pictures, book deatails....)
+              Here we are going to loop it until it;s reveal everything that it contains.
+              we are first checking  (if .Picture.Id) this means if there is something in .Picture.Id thant  display the picture.
+              remember that to display the picture , i have converted the byte array into String that i saved in Id.
+              -->
+        <div class="row">
+            {{with .BookPostDetails}}
+                {{range .}}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-product">
+                            <div class="product-img">
+                                <img class="card-img" style="width:200px;height:200px;"
+                                     id='base64image'
+                                        {{if .Picture.Id}}
+                                            src='data:image/jpeg;base64,{{.Picture.Id}}' alt=""
+                                        {{else}}
+                                            src='../assets/img/product/feature-product/f-p-1.jpg'
+                                        {{end}}
+                                />
+                                <div class="p_icon">
+                                    <a href="/book/details/{{.Book.Id}}">
+                                        <i class="ti-eye"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="ti-heart"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="ti-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-btm">
+                                <a href="#" class="d-block">
+                                    <h4>{{.Book.Title}} &nbsp; {{.Book.Edition}} </h4>
+                                    <h5>{{.Location.Title}}</h5>
+                                </a>
+                                <div class="mt-3">
+                                    <span class="mr-4">R &nbsp;{{.Book.Price}}</span>
+                                    {{/*                <del>$35.00</del>*/}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{end}}
+            {{end}}
+        </div>
     </div>
-  </section>
-  <!--================ End Feature Product Area =================-->
+</section>
+<!--================ End Feature Product Area =================-->
 
-  <!--================ Offer Area =================-->
+<!--================ Offer Area =================-->
 <!-- <section class="offer_area" style="background: url(../assets/img/logo.png)"> -->
-  <section class="offer_area">
+<section class="offer_area">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="offset-lg-4 col-lg-6 text-center">
-          <div class="offer_content">
-            <h3 class="text-uppercase mb-40">all men’s collection</h3>
-            <h2 class="text-uppercase">50% off</h2>
-            <a href="#" class="main_btn mb-20 mt-5">Discover Now</a>
-            <p>Limited Time Offer</p>
-          </div>
+        <div class="row justify-content-center">
+            <div class="offset-lg-4 col-lg-6 text-center">
+                <div class="offer_content">
+                    <h3 class="text-uppercase mb-40">all men’s collection</h3>
+                    <h2 class="text-uppercase">50% off</h2>
+                    <a href="#" class="main_btn mb-20 mt-5">Discover Now</a>
+                    <p>Limited Time Offer</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!--================ End Offer Area =================-->
+</section>
+<!--================ End Offer Area =================-->
 
-  <!--================ New Product Area =================-->
+<!--================ New Product Area =================-->
 
-  <!--================ End New Product Area =================-->
+<!--================ End New Product Area =================-->
 
-  <!--================ Inspired Product Area =================-->
+<!--================ Inspired Product Area =================-->
 
-  <!--================ End Inspired Product Area =================-->
+<!--================ End Inspired Product Area =================-->
 
-  <!--================ Start Blog Area =================-->
-  <section class="blog-area section-gap">
+<!--================ Start Blog Area =================-->
+<section class="blog-area section-gap">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="main_title">
-            <h2><span></span></h2>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-4 col-md-6">
-          <div class="single-blog">
-            <div class="thumb">
-              <img class="img-fluid" src="../assets/img/b1.jpg" alt="">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="main_title">
+                    <h2><span></span></h2>
+                    <p></p>
+                </div>
             </div>
-            <div class="short_details">
-              <div class="meta-top d-flex">
-                <a href="#">By Admin</a>
-                <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
-              </div>
-              <a class="d-block" href="#">
-                <h4>Ford clever bed stops your sleeping
-                  partner hogging the whole</h4>
-              </a>
-              <div class="text-wrap">
-                <p>
-                  Let one fifth i bring fly to divided face for bearing the divide unto seed winged divided light
-                  Forth.
-                </p>
-              </div>
-              <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-lg-4 col-md-6">
-          <div class="single-blog">
-            <div class="thumb">
-              <img class="img-fluid" src="../assets/img/b2.jpg" alt="">
-            </div>
-            <div class="short_details">
-              <div class="meta-top d-flex">
-                <a href="#">By Admin</a>
-                <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
-              </div>
-              <a class="d-block" href="#">
-                <h4>Ford clever bed stops your sleeping
-                  partner hogging the whole</h4>
-              </a>
-              <div class="text-wrap">
-                <p>
-                  Let one fifth i bring fly to divided face for bearing the divide unto seed winged divided light
-                  Forth.
-                </p>
-              </div>
-              <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
-            </div>
-          </div>
         </div>
 
-        <div class="col-lg-4 col-md-6">
-          <div class="single-blog">
-            <div class="thumb">
-              <img class="img-fluid" src="../assets/img/b3.jpg" alt="">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../assets/img/b1.jpg" alt="">
+                    </div>
+                    <div class="short_details">
+                        <div class="meta-top d-flex">
+                            <a href="#">By Admin</a>
+                            <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
+                        </div>
+                        <a class="d-block" href="#">
+                            <h4>Ford clever bed stops your sleeping
+                                partner hogging the whole</h4>
+                        </a>
+                        <div class="text-wrap">
+                            <p>
+                                Let one fifth i bring fly to divided face for bearing the divide unto seed winged
+                                divided light
+                                Forth.
+                            </p>
+                        </div>
+                        <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
+                    </div>
+                </div>
             </div>
-            <div class="short_details">
-              <div class="meta-top d-flex">
-                <a href="#">By Admin</a>
-                <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
-              </div>
-              <a class="d-block" href="#">
-                <h4>Ford clever bed stops your sleeping
-                  partner hogging the whole</h4>
-              </a>
-              <div class="text-wrap">
-                <p>
-                  Let one fifth i bring fly to divided face for bearing the divide unto seed winged divided light
-                  Forth.
-                </p>
-              </div>
-              <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../assets/img/b2.jpg" alt="">
+                    </div>
+                    <div class="short_details">
+                        <div class="meta-top d-flex">
+                            <a href="#">By Admin</a>
+                            <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
+                        </div>
+                        <a class="d-block" href="#">
+                            <h4>Ford clever bed stops your sleeping
+                                partner hogging the whole</h4>
+                        </a>
+                        <div class="text-wrap">
+                            <p>
+                                Let one fifth i bring fly to divided face for bearing the divide unto seed winged
+                                divided light
+                                Forth.
+                            </p>
+                        </div>
+                        <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../assets/img/b3.jpg" alt="">
+                    </div>
+                    <div class="short_details">
+                        <div class="meta-top d-flex">
+                            <a href="#">By Admin</a>
+                            <a href="#"><i class="ti-comments-smiley"></i>2 Comments</a>
+                        </div>
+                        <a class="d-block" href="#">
+                            <h4>Ford clever bed stops your sleeping
+                                partner hogging the whole</h4>
+                        </a>
+                        <div class="text-wrap">
+                            <p>
+                                Let one fifth i bring fly to divided face for bearing the divide unto seed winged
+                                divided light
+                                Forth.
+                            </p>
+                        </div>
+                        <a href="#" class="blog_btn">Learn More <span class="ml-2 ti-arrow-right"></span></a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <!--================ End Blog Area =================-->
+</section>
+<!--================ End Blog Area =================-->
 
-  <!--================ start footer Area  =================-->
-  {{template "footer" .}}
-  <!--================ End footer Area  =================-->
+<!--================ start footer Area  =================-->
+{{template "footer" .}}
+<!--================ End footer Area  =================-->
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="../assets/js/jquery-3.2.1.min.js"></script>
-  <script src="../assets/js/popper.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
-  <script src="../assets/js/stellar.js"></script>
-  <script src="../assets/vendors/lightbox/simpleLightbox.min.js"></script>
-  <script src="../assets/vendors/nice-select/js/jquery.nice-select.min.js"></script>
-  <script src="../assets/vendors/isotope/imagesloaded.pkgd.min.js"></script>
-  <script src="../assets/vendors/isotope/isotope-min.js"></script>
-  <script src="../assets/vendors/owl-carousel/owl.carousel.min.js"></script>
-  <script src="../assets/js/jquery.ajaxchimp.min.js"></script>
-  <script src="../assets/vendors/counter-up/jquery.waypoints.min.js"></script>
-  <script src="../assets/vendors/counter-up/jquery.counterup.js"></script>
-  <script src="../assets/js/mail-script.js"></script>
-  <script src="../assets/js/theme.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../assets/js/jquery-3.2.1.min.js"></script>
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/stellar.js"></script>
+<script src="../assets/vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="../assets/vendors/nice-select/js/jquery.nice-select.min.js"></script>
+<script src="../assets/vendors/isotope/imagesloaded.pkgd.min.js"></script>
+<script src="../assets/vendors/isotope/isotope-min.js"></script>
+<script src="../assets/vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="../assets/js/jquery.ajaxchimp.min.js"></script>
+<script src="../assets/vendors/counter-up/jquery.waypoints.min.js"></script>
+<script src="../assets/vendors/counter-up/jquery.counterup.js"></script>
+<script src="../assets/js/mail-script.js"></script>
+<script src="../assets/js/theme.js"></script>
 </body>
 
 </html>

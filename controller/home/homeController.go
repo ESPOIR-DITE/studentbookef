@@ -27,6 +27,7 @@ func homeHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		myUser := domain.User{}
 		cessionData := user.Message{}
+		var confirmYourRedistration string
 		//just_login_message:=user.Message{}
 		//just_login:=app.Session.GetString(r.Context(),"just_login") 		// we checking if the user just login?
 		//if just_login!=""{
@@ -43,15 +44,19 @@ func homeHandler(app *config.Env) http.HandlerFunc {
 			if err != nil {
 				app.InfoLog.Println(err)
 			}
+			if myUser.PhoneNumber == "" || myUser.Surname == "" {
+				confirmYourRedistration = "Please consider to confirm your registration from your email"
+			}
 		}
 		// read all the posts deatils and images
 		getBookDetails := getBookDetails()
 		type PageData struct {
-			PageMessage     user.Message
-			User            domain.User
-			BookPostDetails []homePosts
+			PageMessage       user.Message
+			User              domain.User
+			BookPostDetails   []homePosts
+			RegistrationNotic string
 		}
-		data := PageData{cessionData, myUser, getBookDetails}
+		data := PageData{cessionData, myUser, getBookDetails, confirmYourRedistration}
 		files := []string{
 			app.Path + "index.html",
 			app.Path + "template/navigator.html",

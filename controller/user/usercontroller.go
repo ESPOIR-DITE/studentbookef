@@ -20,30 +20,115 @@ func User(app *config.Env) http.Handler {
 	r.Post("/register", RegisterHandler(app))             //this method receives signUp form
 	r.Get("/userAccount/{code}", userAccountHandler(app)) // done by Taylor
 	r.Post("/useraccount/register", RegisterUserAccount(app))
+	r.Get("/logout", LogOutHandler(app))
+	r.Get("/profile/{email}", UserProfileHandler(app))
+	r.Post("/update_profile", UserUpdateProfileHandler(app))
 	return r
+}
+
+func UserUpdateProfileHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//myuser := domain.User{} //creating an empty object
+		//clear the cession
+
+		r.ParseForm() //Now we grabbing the contents of the form by call the name of the input(html)
+		name := r.PostFormValue("name")
+		email := r.PostFormValue("email")
+		surname := r.PostFormValue("surname")
+		cellphone := r.PostFormValue("cellphone")
+
+		if name != "" && email != "" {
+			userToUpdate := domain.User{email, name, surname, cellphone}
+			_, err := user.UpdateUser(userToUpdate)
+			if err != nil {
+				fmt.Println(err, " error reading user")
+				//app.Session.Put(r.Context(), "userEmail", email)
+				app.Session.Put(r.Context(), "userMessage", "unknown_error")
+				http.Redirect(w, r, "/", 301)
+			} else {
+				app.Session.Put(r.Context(), "userMessage", "Profile_successfully_updated")
+				http.Redirect(w, r, "/", 301)
+			}
+		}
+	}
+}
+
+func UserProfileHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		email := chi.URLParam(r, "email")
+		user, err := user.ReadUser(email)
+		if err != nil {
+			fmt.Println(err, " error reading user")
+			//app.Session.Put(r.Context(), "userEmail", email)
+			app.Session.Put(r.Context(), "userMessage", "unknown_error")
+			http.Redirect(w, r, "/", 301)
+		}
+		type PageData struct {
+			User domain.User
+		}
+		data := PageData{user}
+		files := []string{
+			app.Path + "user/profile.html",
+			app.Path + "template/navigator.html",
+			app.Path + "template/footer.html",
+		}
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+			return
+		}
+		err = ts.Execute(w, data)
+		if err != nil {
+			app.ErrorLog.Println(err.Error())
+		}
+
+	}
+}
+
+func LogOutHandler(app *config.Env) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//clear the cession
+		app.Session.Destroy(r.Context())
+		http.Redirect(w, r, "/", 301)
+		return
+	}
 }
 
 func RegisterUserAccount(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		myuser := domain.User{} //creating an empty object
-		r.ParseForm()           //Now we grabbing the contents of the form by call the name of the input(html)
+		//clear the cession
+		app.Session.Destroy(r.Context())
+
+		r.ParseForm() //Now we grabbing the contents of the form by call the name of the input(html)
 		name := r.PostFormValue("name")
 		email := r.PostFormValue("email")
 		surname := r.PostFormValue("surname")
 		cellphone := r.PostFormValue("cellphone")
+		password1 := r.PostFormValue("password1")
 		if email != "" {
 			myuser = domain.User{email, name, surname, cellphone}
-			user, err := user.UpdateUser(myuser)
+			userresult, err := user.UpdateUser(myuser)
 			if err != nil { //when an error occurs when signing up
-				app.Session.Put(r.Context(), "userMessage", "sign_up_error")
+				fmt.Println(err, "errror in userUpdate")
+				app.Session.Put(r.Context(), "userMessage", "account-confirmed_error")
 				http.Redirect(w, r, "/user/signup", 301)
 				return
 			} else {
-				app.Session.Remove(r.Context(), "userEmail")
-				app.Session.Put(r.Context(), "userEmail", user.Email)
-				app.Session.Put(r.Context(), "userMessage", "sign_up_success")
-				http.Redirect(w, r, "/", 301)
-				return
+				userAccountObject := domain.UserAccount{userresult.Email, password1, "confirmed", time.Now()}
+				_, err := user.UpdateUserAccount(userAccountObject)
+				if err != nil { //when an error occurs when signing up
+					fmt.Println(err, "errror in userUpdate")
+					app.Session.Put(r.Context(), "userMessage", "account-confirmed_error")
+					http.Redirect(w, r, "/user/signup", 301)
+					return
+				} else {
+					app.Session.Remove(r.Context(), "userEmail")
+					app.Session.Put(r.Context(), "userEmail", userresult.Email)
+					app.Session.Put(r.Context(), "userMessage", "account-confirmed-successfully")
+					http.Redirect(w, r, "/", 301)
+					return
+				}
 			}
 		}
 	}
@@ -106,7 +191,18 @@ func GetMessage(Type string) Message {
 	case "register_error": //this error should be reported on user_post page
 		text := "Unknown error when registering, please try again"
 		return Message{text, "info"}
-
+	case "account-confirmed-successfully": //this error should be reported on home page it means that the user has confirmed his email successfully
+		text := "Unknown error when registering, please try again"
+		return Message{text, "info"}
+	case "account-confirmed_error": //this error should be reported on sign up or confirm registration page it means that the user failed to  confirmed his email
+		text := "Unknown error when registering, please try again"
+		return Message{text, "info"}
+	case "unknown_error": //this error should be reported on home page it means that the something wait wrong when trying to get profile page
+		text := "Unknown error, please try again"
+		return Message{text, "info"}
+	case "Profile_successfully_updated": //this message should be reported on home page it means that the user has update his profile successfully
+		text := "Unknown error, please try again"
+		return Message{text, "info"}
 	}
 	return Message{}
 }
@@ -261,13 +357,19 @@ func userAccountHandler(app *config.Env) http.HandlerFunc { //done by Taylor
 			http.Redirect(w, r, "/user/signup", 301)
 			return
 		}
+		if user.PhoneNumber != "" {
+			app.Session.Put(r.Context(), "userEmail", user.Email)
+			//app.Session.Put(r.Context(), "userMessage", "account-confirmed-successfully")
+			http.Redirect(w, r, "/", 301)
+			return
+		}
 		type PageData struct {
 			User domain.User
 		}
 
 		data := PageData{user}
 		files := []string{
-			app.Path + "user/userAccount.html",
+			app.Path + "user/register.html",
 			app.Path + "template/navigator.html",
 			app.Path + "template/footer.html",
 		}

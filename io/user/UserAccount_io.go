@@ -44,3 +44,15 @@ func ReadWithpassword(code string) (domain.User, error) {
 	}
 	return entity, nil
 }
+func UpdateUserAccount(loginDetails domain.UserAccount) (domain.UserAccount, error) {
+	var entity domain.UserAccount
+	resp, _ := api.Rest().SetBody(loginDetails).Post(useraccountURL + "update")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}

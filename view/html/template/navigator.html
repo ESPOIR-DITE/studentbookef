@@ -6,9 +6,10 @@
                 <nav class="navbar navbar-expand-lg navbar-light w-100">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <a class="navbar-brand logo_h" href="/">
-                        <img src="../../assets/img/Bookverse4-edited.png" alt="" />
+                        <img src="../../assets/img/Bookverse4-edited.png" alt=""/>
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -23,7 +24,8 @@
                                         <a class="nav-link" href="/">Home</a>
                                     </li>
                                     <li class="nav-item submenu dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                           role="button" aria-haspopup="true"
                                            aria-expanded="false">Books</a>
                                         <ul class="dropdown-menu">
                                             <li class="nav-item">
@@ -38,7 +40,8 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item submenu dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                           role="button" aria-haspopup="true"
                                            aria-expanded="false">Member</a>
                                         <ul class="dropdown-menu">
                                             <li class="nav-item">
@@ -52,20 +55,23 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Contact</a>
                                     </li>
-                                        {{if  .User.Name}}
-                                            <li class="nav-item submenu dropdown">
-                                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                   aria-expanded="false">{{.User.Name}}</a>
-                                                <ul class="dropdown-menu">
+                                    {{if  .User.Name}}
+                                        <li class="nav-item submenu dropdown">
+                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                               role="button" aria-haspopup="true"
+                                               aria-expanded="false"{{if not .User.PhoneNumber}} title="Need to confirm email" {{end}}>{{.User.Name}}{{if not .User.PhoneNumber}} ! {{end}}</a>
+                                            <ul class="dropdown-menu">
+                                                {{if not .User.PhoneNumber}} {{else}}
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="/book">New Post</a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="/book/get_mypost">My Posts</a>
                                                     </li>
-                                                </ul>
-                                            </li>
-                                            {{end}}
+                                                {{end}}
+                                            </ul>
+                                        </li>
+                                    {{end}}
                                 </ul>
                             </div>
 
@@ -77,22 +83,27 @@
                                         </a>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <!--li class="nav-item">
                                         <a href="#" class="icons">
                                             <i class="ti-shopping-cart"></i>
                                         </a>
-                                    </li>
+                                    </li-->
 
                                     <li class="nav-item">
                                         {{if not .User.Name}}
                                             <a href="/user/login" class="icons" title="LogIn">
                                                 <i class="ti-user" aria-hidden="true"></i>
                                             </a>
+                                        {{else if not .User.PhoneNumber}}
+                                            <a href="#" class="icons" aria-disabled="true" title="Need to register">
+                                                <i class="ti-user" aria-hidden="true"></i>
+                                            </a>
                                         {{else}}
-                                            <a href="/user/profile" class="icons" title="{{.User.Name}}">
+                                            <a href="/user/profile/{{.User.Email}}" class="icons" title="Profile">
                                                 <i class="ti-user" aria-hidden="true"></i>
                                             </a>
                                         {{end}}
+
 
                                     </li>
 
@@ -101,6 +112,13 @@
                                             <i class="ti-heart" aria-hidden="true"></i>
                                         </a>
                                     </li>
+                                    {{if .User.Name}}
+                                        <li class="nav-item">
+                                            <a href="/user/logout" class="icons">
+                                                <i class="ti-close" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    {{end}}
                                 </ul>
                             </div>
                         </div>
