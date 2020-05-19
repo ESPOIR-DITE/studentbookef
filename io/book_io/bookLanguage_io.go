@@ -6,7 +6,7 @@ import (
 	"studentbookef/domain"
 )
 
-const booklanguageURL = api.BASE_URL + "book_language/"
+const booklanguageURL = api.BASE_URL + "book_language"
 
 func CreateBookLanguage(language domain.BookLanguage) (domain.BookLanguage, error) {
 	entity := domain.BookLanguage{}

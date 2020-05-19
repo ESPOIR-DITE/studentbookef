@@ -40,7 +40,8 @@
             </div>
             <div class="page_link">
               <a href="/">Home</a>
-              <a href="/book">Post A Book</a>
+              <a href="category.html">Shop</a>
+              <a href="category.html">Women Fashion</a>
             </div>
           </div>
         </div>
@@ -70,7 +71,6 @@
             
             <div class="latest_product_inner">
               <div class="row">
-                {{if .BookPostDetails}}
                 {{with .BookPostDetails}}
                   {{range .}}
                     <div class="col-lg-4 col-md-6">
@@ -88,7 +88,7 @@
                             <a href="/book/post_edit/{{.Book.Id}}" title="update">
                               <i class="ti-write"></i>
                             </a>
-                            <a href="" data-toggle="modal" data-target="#error" onclick="DeleteWarnig({{.Book.Title}},{{.Book.Id}})" title="delete">
+                            <a href="#" title="delete">
                               <i class="ti-eraser"></i>
                             </a>
                             <a href="#" >
@@ -109,9 +109,6 @@
                       </div>
                     </div>
                   {{end}}
-                {{end}}
-                {{else}}
-                <h2 style="color: #98d370" class="text-center">You have not Posted a book</h2>
                 {{end}}
 
               </div>
@@ -202,37 +199,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Modals error -->
-
-    <div id="error" class="modal modal-message fade" role="dialog">
-      <div class="row">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <i class="fa fa-close"></i>
-            </button>
-            <br/>
-            <form method="post"  action="/book/delete">
-              <hr class="my-4">
-              <div class="input-group-icon mt-10">
-              <label class=" control-label">Do you really want to delete this book </label>
-              <div class="col-12">
-                <input type="text" id="bookName" style="color: #98d370" name="CustomerName" required class="single-input">
-                <input type="hidden" id="bookId" name="bookId">
-              </div>
-              </div>
-              <hr class="my-4">
-              <button class="btn btn-lg btn-danger btn-block text-uppercase" type="submit">Delete</button>
-            </form>
-            <!--add containts here-->
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- Modals error -->
     <!--================End Category Product Area =================-->
 
     <!--================ start footer Area  =================-->
@@ -257,10 +223,4 @@
     <script src="../../assets/vendors/counter-up/jquery.counterup.js"></script>
     <script src="../../assets/js/theme.js"></script>
   </body>
-  <script>
-    function DeleteWarnig(bookName,booId) {
-         document.getElementById("bookName").value = bookName;
-         document.getElementById("bookId").value = booId;
-    }
-  </script>
 </html>

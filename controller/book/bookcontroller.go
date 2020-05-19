@@ -36,184 +36,9 @@ func Book(app *config.Env) http.Handler {
 	r.Get("/get_mypost", GetPostHandler(app)) //This Method is called when a user want to see all his/her posts.
 	r.Get("/post_edit/{bookId}", EditPostHandler(app))
 	r.Post("/image_update", updatePicture(app))
-	r.Post("/update_book_details", UpdateBookDetaildHandler(app))
-	r.Post("/delete", DeleteBookHandler(app))
 
 	//r.Post("/post_book_location",PostBookLocation(app))
 	return r
-}
-
-func DeleteBookHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		bookId := r.PostFormValue("bookId")
-		book, err := book_io.ReadBook(bookId)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error reading book")
-		}
-		post, err := book_io.ReadWithBookId(bookId)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error reading bookPost")
-		}
-		bookImages, err := book_io.ReadAllOfBookImage(bookId)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error reading bookImage")
-		} else {
-			for _, bookImage := range bookImages {
-				Image, err := picture_io.ReadCompltePicture(bookImage.ImageId)
-				//fmt.Println(Image.Id,"  Image")
-				if err != nil {
-					app.ErrorLog.Println(err, "  error reading bookImage")
-				} else {
-					_, err := book_io.DeleteBookImage(bookImage)
-					if err != nil {
-						app.ErrorLog.Println(err, "  error deleting DbookImage")
-					}
-					_, errr := picture_io.DeletePicture(Image)
-					if errr != nil {
-						app.ErrorLog.Println(err, "  error deleting Dimage")
-					}
-				}
-			}
-		}
-		bookLanguage, err := book_io.ReadBookLanguage(bookId)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error reading bookLanguage")
-		}
-		bookDepartment, err := book_io.ReadBookDepartment(bookId)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error reading bookDepartment")
-		}
-		if post.LocationId != "" {
-			location, err := location2.ReadLocation(post.LocationId)
-			if err != nil {
-				app.ErrorLog.Println(err, "  error reading location")
-			} else {
-				_, err := location2.DeleteLocation(location)
-				if err != nil {
-					app.ErrorLog.Println(err, "  error deleting location")
-				}
-			}
-		}
-		userPost, err := user2.ReadUserPost(post.Id)
-		if err != nil {
-			app.ErrorLog.Println(err, "  error Readig User Post")
-		}
-		if book.Id != "" && bookDepartment.DepartmentId != "" && post.Id != "" && userPost.PostId != "" && bookLanguage.BookId != "" {
-			_, err := book_io.DeleteBook(book)
-			if err != nil {
-				app.ErrorLog.Println(err, "  error deleting book")
-			}
-			_, errr := book_io.DeleteBookDepartment(bookDepartment)
-			if errr != nil {
-				app.ErrorLog.Println(errr, "  error deleting BookDepartment")
-			}
-			_, errrr := book_io.DeleteBookPost(post)
-			if errrr != nil {
-				app.ErrorLog.Println(errrr, "  error deleting BookPost")
-			}
-			_, errrrr := user2.DeleteUserPost(userPost)
-			if errrrr != nil {
-				app.ErrorLog.Println(errrrr, "  error deleting UserPost")
-			}
-			_, errrrrr := book_io.DeleteBookLanguage(bookLanguage)
-			if errrrrr != nil {
-				app.ErrorLog.Println(errrrrr, "  error deleting BookLanguage")
-			}
-			// if all go well
-			fmt.Println("bookImage delete Successful: ")
-			app.Session.Put(r.Context(), "userMessage", "delete_successful")
-			http.Redirect(w, r, "/book/get_mypost", 301)
-			return
-		}
-	}
-
-}
-
-func UpdateBookDetaildHandler(app *config.Env) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		email := app.Session.GetString(r.Context(), "userEmail")
-		if email == "" {
-			app.Session.Put(r.Context(), "userMessage", "post_error_need_to_signup")
-			http.Redirect(w, r, "/user/login", 301)
-			return
-		}
-
-		//Collecting data from HTML
-
-		r.ParseForm()
-		bookId := r.PostFormValue("bookId")
-		bookName := r.PostFormValue("bookName")
-		edition := r.PostFormValue("edition")
-		//datestr := r.PostFormValue("date")
-		//dateTime, _ := time.Parse(misc.YYYMMDDTIME_FORMAT, datestr)
-		price, _ := strconv.ParseFloat(r.PostFormValue("price"), 64)
-		author := r.PostFormValue("author")
-		department := r.PostFormValue("department")
-		language := r.PostFormValue("language")
-		post_description := r.PostFormValue("post_description")
-		postId := r.PostFormValue("postId")
-		locationId := r.PostFormValue("locationId")
-		location_title := r.PostFormValue("location_title")
-		location_description := r.PostFormValue("location_description")
-
-		//app.ErrorLog.Println(dateTime, " date")
-
-		if bookId != "" && bookName != "" && language != "" && edition != "" && author != "" {
-			fmt.Println(language)
-			book := domain.Book{bookId, bookName, language, edition, price, author}
-			_, err := book_io.UpdateBook(book)
-			if err != nil {
-				app.ErrorLog.Println(err, "  error updating book")
-			}
-		}
-
-		/****
-		Dealing with BookPost update
-		*/
-		if postId != "" && bookId != "" && locationId != "" && post_description != "" {
-			fmt.Println(postId)
-			oldPost, err := book_io.ReadBookPost(postId)
-			if err != nil {
-				app.ErrorLog.Println(err, " error reading post")
-			} else {
-				post := domain.BookPost{postId, email, bookId, oldPost.Date, locationId, oldPost.Status, post_description}
-				_, err := book_io.UpdateBookPost(post)
-				if err != nil {
-					app.ErrorLog.Println(err, "error creating BookPost")
-				}
-			}
-			/****
-			Dealing with Book department update
-			*/
-			if department != "" && bookId != "" {
-				bookdepartment := domain.BookDepartment{bookId, department, ""}
-				_, err := book_io.UpdateBookDepartment(bookdepartment)
-				if err != nil {
-					app.ErrorLog.Println(err, "error creating BookDepartment")
-				}
-			}
-			/*****
-			Dealing with Location update
-			*/
-			if location_description != "" && locationId != "" && location_title != "" {
-				location := domain.Location{locationId, location_title, "", "", location_description}
-
-				fmt.Println(location)
-				_, err := io.UpdateLocation(location)
-				if err != nil {
-					app.ErrorLog.Println(err, "error creating Location")
-				}
-			}
-		}
-		// if all go well
-		fmt.Println("bookImage creation Successful: ")
-		app.Session.Put(r.Context(), "userMessage", "update_successful")
-		http.Redirect(w, r, "/book/post_edit/"+bookId, 301)
-		return
-
-	}
-
 }
 
 func updatePicture(app *config.Env) http.HandlerFunc {
@@ -227,7 +52,6 @@ func updatePicture(app *config.Env) http.HandlerFunc {
 			http.Redirect(w, r, "/login", 301)
 			return
 		}
-
 		fmt.Println("voila we are in picture update process")
 		//picture := domain.Picture{}
 		r.ParseForm()
@@ -280,14 +104,6 @@ func EditPostHandler(app *config.Env) http.HandlerFunc {
 		var department domain.Department
 		var bookPostObject domain.BookPost
 		myUser := domain.User{}
-		email := app.Session.GetString(r.Context(), "userEmail") //We are checking of the user has login?
-		if email != "" {
-			err := errors.New("")
-			myUser, err = user2.ReadUser(email)
-			if err != nil {
-				app.InfoLog.Println(err)
-			}
-		}
 
 		bookId := chi.URLParam(r, "bookId")
 		if bookId == "" {
@@ -314,7 +130,7 @@ func EditPostHandler(app *config.Env) http.HandlerFunc {
 			Here I HAVE TRIED TO REPLACE LOCATIONID FIELD WITH FORMATTED TIME IN STRING TO ALLOW HTML TO READ TIME PROPERLY
 			*/
 			bookPostObject = domain.BookPost{bookPost.Id, bookPost.Email, bookPost.BookId, bookPost.Date, misc.FormatDateTime(bookPost.Date), bookPost.Description, bookPost.Description}
-			//fmt.Println(bookPostObject.LocationId, "<<<<<<Time")
+			fmt.Println(bookPostObject.LocationId, "<<<<<<Time")
 		}
 		book, err := book_io.ReadBook(bookId)
 		if err != nil {
@@ -425,7 +241,6 @@ func GetPostHandler(app *config.Env) http.HandlerFunc {
 		myUser := domain.User{}
 		/****
 		Here we are checking if the user has logged in and we verify if the user is authentic
-		If the user has not logIn and if he is not authenticated we will send him/her to the login page
 		*/
 		if email != "" {
 			err := errors.New("")
@@ -578,14 +393,6 @@ func DetailsHandler(app *config.Env) http.HandlerFunc {
 		var picture2 string
 		var department domain.Department
 		myUser := domain.User{}
-		email := app.Session.GetString(r.Context(), "userEmail") //We are checking of the user has login?
-		if email != "" {
-			err := errors.New("")
-			myUser, err = user2.ReadUser(email)
-			if err != nil {
-				app.InfoLog.Println(err)
-			}
-		}
 
 		bookId := chi.URLParam(r, "bookId")
 		if bookId == "" {
@@ -903,7 +710,7 @@ func PostBookHandler(app *config.Env) http.HandlerFunc {
 		email := app.Session.GetString(r.Context(), "userEmail")
 		if email == "" {
 			app.Session.Put(r.Context(), "userMessage", "post_error_need_to_signup")
-			http.Redirect(w, r, "/user/login", 301)
+			http.Redirect(w, r, "/login", 301)
 			return
 		}
 
@@ -924,7 +731,7 @@ func PostBookHandler(app *config.Env) http.HandlerFunc {
 				http.Redirect(w, r, "/book/", 301)
 				return
 			} else { // if all Good. we now create BookLanguage
-				bookLanguage := domain.BookLanguage{newBook.Id, language}
+				bookLanguage := domain.BookLanguage{book.Id, language}
 				_, err := book_io.CreateBookLanguage(bookLanguage)
 				if err != nil {
 					app.ErrorLog.Println(err.Error(), " error creating book language")
@@ -1186,11 +993,10 @@ func getUserBookDetails(id string) []homePosts {
 	}
 	// we secondly check all the posts of that user if he/she has one.
 	for _, post := range userPosts {
-		fmt.Println(post, " Postes")
 		myposts, err := book_io.ReadBookPost(post.PostId)
 		if err != nil {
-			fmt.Println(err, " there is an error when reading the bookPosts of>>>", post.PostId)
-			//return entity
+			fmt.Println(err, " there is an error when reading all the bookPosts")
+			return entity
 		}
 		posts = append(posts, myposts)
 	}
@@ -1201,6 +1007,7 @@ func getUserBookDetails(id string) []homePosts {
 		if err != nil {
 			fmt.Println(err, " there is an error when reading book")
 		}
+
 		location, err := location2.ReadLocation(post.LocationId)
 		if err != nil {
 			fmt.Println(err, " there is an error when reading all the location")

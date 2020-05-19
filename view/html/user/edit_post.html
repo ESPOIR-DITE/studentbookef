@@ -108,8 +108,8 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
-                        <h3 class="mb-30 title_color" style="color:#98d370"> {{.Book.Title}}</h3>
-                        <form action="/book/update_book_details" method="post">
+                        <h3 class="mb-30 title_color" style="color:#98d370">Book: {{.Book.Title}}</h3>
+                        <form action="/book/update_book_details/{{.Book.Id}}">
                             <div class="input-group-icon mt-10">
                             <label>Book Title</label>
                             <div class="mt-10">
@@ -126,11 +126,18 @@
                             </div>
                             </div>
 
+                            <div class="input-group-icon mt-10">
+                            <label>Post Date</label>
+                            <div class="mt-10">
+                                <input type="text" name="date" value="{{.Post.LocationId}}" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
+                                       required class="single-input">
+                            </div>
+                            </div>
 
                             <div class="input-group-icon mt-10">
-                            <label>Book Price in Rand ex: 200</label>
+                            <label>Book Price</label>
                             <div class="mt-12">
-                                <input type="text" name="price" value="{{.Book.Price}}"  placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = '300'"
+                                <input type="email" name="price"{{.Book.Price}} placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
                                        required class="single-input">
                             </div>
                             </div>
@@ -143,8 +150,8 @@
 
                             <div class="input-group-icon mt-10">
                                 <label>Department</label>
-                                <div class="form-select" id="default-select"  onchange="checkSelectedDepartment({{.Department.Id }})">
-                                    <select name="department">
+                                <div class="form-select" id="default-select" onchange="checkSelectedDepartment({{.Department.Id }})">
+                                    <select>
                                         {{with .Departments}}
                                         {{range .}}
                                         <option value="{{.Id}}"{{if eq $.Department.Id .Id}} selected {{end}}>{{.Department_Name}}</option>
@@ -157,7 +164,7 @@
                             <div class="input-group-icon mt-10">
                                 <label>Language</label>
                                 <div class="form-select" id="default-select2" onchange="checkSelectedLanguage({{.Department.Id }})">
-                                    <select name="language">
+                                    <select>
                                         {{with .Languages}}
                                         {{range .}}
                                         <option value="{{.Id}}"{{ if eq $.Language.Id .Id}}selected {{end}}>{{.Language}}</option>
@@ -166,29 +173,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <input type="hidden" value="{{.Post.Id}}" name="postId">
-                            <input type="hidden" value="{{.Location.Id}}" name="locationId">
-                            <input type="hidden" value="{{.Book.Id}}" name="bookId">
 
                             <div class="input-group-icon mt-10">
                             <label>Book Description</label>
                             <div class="mt-10">
-								<textarea class="single-textarea"  name="post_description" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = ''"
-                                          required>{{.Post.Description}}</textarea>
+								<textarea class="single-textarea" placeholder="{{.Post.Description}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{.Post.Description}}'"
+                                          required></textarea>
                             </div>
-                            </div>
-                            <hr class="my-4">
-                            <div class="input-group-icon mt-10">
-                                <label>Place</label>
-                                <input type="text" name="location_title" value="{{.Location.Title}}" placeholder="Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'author'"
-                                       required class="single-input">
-                            </div>
-                            <div class="input-group-icon mt-10">
-                                <label>Location Description</label>
-                                <div class="mt-10">
-								<textarea class="single-textarea" name="location_description" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = ''"
-                                          required>{{.Location.Description}}</textarea>
-                                </div>
                             </div>
                             <hr class="my-4">
                             <button class="btn btn-lg btn-warning btn-block text-uppercase" type="submit">Update Book Details</button>
