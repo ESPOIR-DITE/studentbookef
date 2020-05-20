@@ -8,7 +8,7 @@ import (
 )
 
 func TestCreateDepartment(t *testing.T) {
-	entity := domain.Department{"", "IT", "technic"}
+	entity := domain.Department{"", "History", "technic"}
 	result, err := CreateDepartment(entity)
 	assert.Nil(t, err)
 	fmt.Println("result :", result)
@@ -24,7 +24,7 @@ func TestReadDepartments(t *testing.T) {
 	fmt.Println("result :", result)
 }
 func TestDeleteDepartment(t *testing.T) {
-	entity := domain.Department{"", "IT", "technic"}
+	entity := domain.Department{"DF-8d4a36ab-92ae-49ed-be78-c990ba5507e7", "IT", "technic"}
 	result, err := DeleteDepartment(entity)
 
 	assert.Nil(t, err)

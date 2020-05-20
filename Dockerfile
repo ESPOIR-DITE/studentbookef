@@ -21,7 +21,7 @@ COPY . .
 # Build the Go app
 RUN go build -o main .
 
-# Expose port 8080 to the outside world
+# Expose port 8080 to the outside world// this dont make sense to me.
 EXPOSE 4000
 
 # Command to run the executable

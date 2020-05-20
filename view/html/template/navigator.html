@@ -59,7 +59,7 @@
                                         <li class="nav-item submenu dropdown">
                                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
                                                role="button" aria-haspopup="true"
-                                               aria-expanded="false"{{if not .User.PhoneNumber}} title="Need to confirm email" {{end}}>{{.User.Name}}{{if not .User.PhoneNumber}} ! {{end}}</a>
+                                               aria-expanded="false"{{if not .User.PhoneNumber}} style="color:red;" title="Need to confirm email" {{end}}>{{.User.Name}}{{if not .User.PhoneNumber}} ! {{end}}</a>
                                             <ul class="dropdown-menu">
                                                 {{if not .User.PhoneNumber}} {{else}}
                                                     <li class="nav-item">
@@ -114,7 +114,7 @@
                                     </li>
                                     {{if .User.Name}}
                                         <li class="nav-item">
-                                            <a href="/user/logout" class="icons">
+                                            <a href="/user/logout" class="icons"title="Logout">
                                                 <i class="ti-close" aria-hidden="true"></i>
                                             </a>
                                         </li>
