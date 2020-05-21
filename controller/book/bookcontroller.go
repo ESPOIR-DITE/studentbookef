@@ -669,7 +669,7 @@ func PostLocationHandler(app *config.Env) http.HandlerFunc {
 				http.Redirect(w, r, "/book/location", 301)
 				return
 			} else { // This section executes when all the conditions in the ifs are OK.
-				//todo create UserPost.
+				// create UserPost.
 				myUserPost := domain.UserPost{newPost.Id, email}
 				_, err := user2.CreateUserPost(myUserPost)
 				if err != nil { //when an error when creating UserPost occurs
