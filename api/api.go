@@ -6,10 +6,11 @@ import (
 )
 
 /**
-*this is a class that set up the Api address to consume "http://localhost:9099/sts/"
+*this is a class that set up the Api address to consume resources on "http://localhost:9099/sts/"
 * Port: 9099 domain: bookstore
 *It also set the type of messaging protocol in our case we will be using JSON
 **/
+
 const BASE_URL string = "http://localhost:8089/sts/" //connection port
 
 func Rest() *resty.Request {

@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"net/http"
 	"studentbookef/config"
+	"studentbookef/controller/admin"
 	"studentbookef/controller/book"
 	"studentbookef/controller/home"
 	"studentbookef/controller/user"
@@ -25,13 +26,7 @@ func Controllers(env *config.Env) http.Handler {
 	mux.Mount("/", home.Home(env))
 	mux.Mount("/user", user.User(env))
 	mux.Mount("/book", book.Book(env))
-	//mux.Handle("/homeError", controllers.Home(env))
-	//mux.Mount("/category", item.Home(env))
-	//mux.Mount("/customer", customer.Customer(env))
-	//mux.Mount("/user", users.User(env))
-	//mux.Mount("/manager", admin.Admin(env))
-	//mux.Mount("/item", item.Home(env))
-	//mux.Mount("/order", order.Order(env))
+	mux.Mount("/director", admin.AdminController(env))
 
 	fileServer := http.FileServer(http.Dir("./view/assets/"))
 	// Use the mux.Handle() function to register the file server as the handler for

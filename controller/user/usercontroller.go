@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"studentbookef/config"
+	"studentbookef/controller/misc"
 	"studentbookef/domain"
 	"studentbookef/io/user"
 	"time"
@@ -17,8 +18,8 @@ func User(app *config.Env) http.Handler {
 	r.Get("/login", logInHandler(app))
 	r.Post("/loginpost", LoginPostHandler(app))
 	r.Get("/signup", SignUpHandler(app))
-	r.Post("/register", RegisterHandler(app))             //this method receives signUp form
-	r.Get("/userAccount/{code}", userAccountHandler(app)) // done by Taylor
+	r.Post("/register", RegisterHandler(app)) //this method receives signUp form
+	r.Get("/userAccount/{code}", userAccountHandler(app))
 	r.Post("/useraccount/register", RegisterUserAccount(app))
 	r.Get("/logout", LogOutHandler(app))
 	r.Get("/profile/{email}", UserProfileHandler(app))
@@ -115,7 +116,7 @@ func RegisterUserAccount(app *config.Env) http.HandlerFunc {
 				http.Redirect(w, r, "/user/signup", 301)
 				return
 			} else {
-				userAccountObject := domain.UserAccount{userresult.Email, password1, "confirmed", time.Now()}
+				userAccountObject := domain.UserAccount{userresult.Email, password1, "confirmed", "", time.Now()}
 				_, err := user.UpdateUserAccount(userAccountObject)
 				if err != nil { //when an error occurs when signing up
 					fmt.Println(err, "errror in userUpdate")
@@ -129,8 +130,14 @@ func RegisterUserAccount(app *config.Env) http.HandlerFunc {
 					http.Redirect(w, r, "/", 301)
 					return
 				}
+				//Creating User Role
+
 			}
+
 		}
+		app.Session.Put(r.Context(), "userMessage", "account-confirmed_error")
+		http.Redirect(w, r, "/user/signup", 301)
+		return
 	}
 }
 
@@ -222,13 +229,30 @@ func LoginPostHandler(app *config.Env) http.HandlerFunc {
 		password := r.PostFormValue("password")
 		email := r.PostFormValue("email")
 		if password != "" || email != "" {
-			myuser = domain.UserAccount{email, password, "", time.Now()}
+			myuser = domain.UserAccount{email, password, "", "", time.Now()}
 			fmt.Println(myuser)
-			result, err := user.UserLog(myuser)
-			fmt.Println(result, " result")
-			if result.Email != "" {
+			resultUser, err := user.UserLog(myuser)
+			if err != nil { //when an error occurs when signing up
+				fmt.Println(err, " error reading resultUser")
+				app.Session.Put(r.Context(), "userMessage", "sign_up_error")
+				http.Redirect(w, r, "/user/login", 301)
+				return
+			}
+
+			//Checking if the user is an admin
+			isAdmin := misc.CheckAdmin(email)
+			if isAdmin == true {
+				app.Session.Put(r.Context(), "userEmail", email)
+				app.Session.Put(r.Context(), "userMessage", "just_login")
+				http.Redirect(w, r, "/director", 301)
+				return
+			}
+
+			fmt.Println(resultUser, " result")
+			if resultUser.Email != "" && resultUser.RoleId == "" {
 				// If there is no error we save the login details in the cession so that we can authenticate the user during her/his cession period
-				app.Session.Put(r.Context(), "userEmail", result.Email)
+				//And if the user is not a manager
+				app.Session.Put(r.Context(), "userEmail", email)
 				app.Session.Put(r.Context(), "userMessage", "just_login")
 				http.Redirect(w, r, "/", 301)
 				return
@@ -251,6 +275,10 @@ func LoginPostHandler(app *config.Env) http.HandlerFunc {
 	}
 }
 
+/****
+the first time when the user register on the system.
+*/
+
 func RegisterHandler(app *config.Env) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		myuser := domain.User{} //creating an empty object
@@ -264,12 +292,13 @@ func RegisterHandler(app *config.Env) http.HandlerFunc {
 				app.Session.Put(r.Context(), "userMessage", "sign_up_error")
 				http.Redirect(w, r, "/user/signup", 301)
 				return
-			} else {
-				app.Session.Put(r.Context(), "userEmail", email)
-				app.Session.Put(r.Context(), "userMessage", "sign_up_success")
-				http.Redirect(w, r, "/", 301)
-				return
 			}
+			//creating user role
+			app.Session.Put(r.Context(), "userEmail", email)
+			app.Session.Put(r.Context(), "userMessage", "sign_up_success")
+			http.Redirect(w, r, "/", 301)
+			return
+
 		}
 	}
 }
@@ -344,6 +373,7 @@ func userAccountHandler(app *config.Env) http.HandlerFunc { //done by Taylor
 		code := chi.URLParam(r, "code")
 		userAccount, err := user.ReadWithpassword(code)
 		if err != nil { //when an error occurs when
+			fmt.Println(err, "error reading user with code")
 			app.Session.Put(r.Context(), "userMessage", "register_error")
 			http.Redirect(w, r, "/user/signup", 301)
 			return
@@ -354,6 +384,7 @@ func userAccountHandler(app *config.Env) http.HandlerFunc { //done by Taylor
 		}
 		user, err := user.ReadUser(userAccount.Email)
 		if err != nil { //when an error occurs
+			fmt.Println(err, "error reading user with email")
 			app.Session.Put(r.Context(), "userMessage", "register_error")
 			http.Redirect(w, r, "/user/signup", 301)
 			return

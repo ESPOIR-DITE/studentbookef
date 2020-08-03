@@ -6,7 +6,7 @@ import (
 	"studentbookef/domain"
 )
 
-const useraccountURL = api.BASE_URL + "users/"
+const useraccountURL = api.BASE_URL + "user_account/"
 
 func UserLog(loginDetails domain.UserAccount) (domain.UserAccount, error) {
 	var entity domain.UserAccount
@@ -32,8 +32,8 @@ func ReadAllLog() ([]domain.UserAccount, error) {
 	}
 	return entity, nil
 }
-func ReadWithpassword(code string) (domain.User, error) {
-	var entity domain.User
+func ReadWithpassword(code string) (domain.UserAccount, error) {
+	var entity domain.UserAccount
 	resp, _ := api.Rest().Get(useraccountURL + "readwithcode?id=" + code)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
@@ -47,6 +47,18 @@ func ReadWithpassword(code string) (domain.User, error) {
 func UpdateUserAccount(loginDetails domain.UserAccount) (domain.UserAccount, error) {
 	var entity domain.UserAccount
 	resp, _ := api.Rest().SetBody(loginDetails).Post(useraccountURL + "update")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
+func ReadUserAccountWithEmail(email string) (domain.UserAccount, error) {
+	var entity domain.UserAccount
+	resp, _ := api.Rest().Get(useraccountURL + "readwithemail?id=" + email)
 	if resp.IsError() {
 		return entity, errors.New(resp.Status())
 	}

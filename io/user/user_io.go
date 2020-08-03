@@ -33,6 +33,19 @@ func ReadUser(email string) (domain.User, error) {
 	}
 	return entity, nil
 }
+
+func ReadUsers() ([]domain.User, error) {
+	var entity []domain.User
+	resp, _ := api.Rest().Get(userURL + "reads")
+	if resp.IsError() {
+		return entity, errors.New(resp.Status())
+	}
+	err := api.JSON.Unmarshal(resp.Body(), &entity)
+	if err != nil {
+		return entity, errors.New(resp.Status())
+	}
+	return entity, nil
+}
 func UpdateUser(user domain.User) (domain.User, error) {
 	var entity domain.User
 	resp, _ := api.Rest().SetBody(user).Post(userURL + "update")

@@ -36,3 +36,9 @@ func TestReafAllOfUserPost(t *testing.T) {
 	fmt.Println(result)
 	assert.Nil(t, err)
 }
+
+func TestReadUsers(t *testing.T) {
+	result, err := ReadUsers()
+	fmt.Println(result)
+	assert.Nil(t, err)
+}

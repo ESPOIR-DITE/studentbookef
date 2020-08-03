@@ -23,9 +23,15 @@ type UserAccount struct {
 	Email         string    `json:"email"`
 	Password      string    `json:"password"`
 	AccountStatus string    `json:"account_status"`
+	RoleId        string    `json:"roleId"`
 	Date          time.Time `json:"date"`
 }
 type UserPost struct {
 	PostId string `json:"postId"`
 	Email  string `json:"email"`
+}
+type UserRole struct {
+	Id          string `json:"id"`
+	Role        string `json:"role"`
+	Description string `json:"description"`
 }
