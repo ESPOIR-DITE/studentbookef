@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../assets/vendors/nice-select/css/nice-select.css"/>
     <link rel="stylesheet" href="../assets/vendors/animate-css/animate.css"/>
     <link rel="stylesheet" href="../assets/vendors/jquery-ui/jquery-ui.css"/>
+    <link rel="stylesheet" href="../assets/css/customer.css">
     <!-- main css -->
     <link rel="stylesheet" href="../assets/css/style.css"/>
     <link rel="stylesheet" href="../assets/css/responsive.css"/>
@@ -46,21 +47,23 @@
 <!--================End Home Banner Area =================-->
 {{if .RegistrationNotic}}
     <div class="container">
-        <div class="row">
-            <div class="alert danger text-center col-md-12">
-                <button type="button" aria-hidden="true" class="close" data-dismiss="alert">
-                    <i class="nc-icon nc-simple-remove"></i>
-                </button>
-                <a href="#">
-                    <span style="color:#f9f9ff">Please consider to confirm your registration to be able for posting your books {{.User.PhoneNumber}}</span></a>
-            </div>
+        <!-- Warning Alert -->
+        <div class="alert alert-warning alert-dismissible fade show">
+            <strong>Warning!</strong> Please consider to confirm your registration to be able for posting your books {{.User.PhoneNumber}}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
     </div>
+    
 {{end}}
 <!-- Start feature Area -->
-<div class="main_title">
-    <h2 style="color:#ee9900;"><span>! We are under construction !</span></h2>
-    <p> We will be official soon, Thanks for your support</p>
+
+
+<!-- Info Alert -->
+<div class="container">
+<div class="alert alert-info alert-dismissible fade show">
+    <strong>Info!</strong> We are under construction.
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
 </div>
 
 
@@ -315,5 +318,32 @@
 <script src="../assets/js/mail-script.js"></script>
 <script src="../assets/js/theme.js"></script>
 </body>
+<script>
+
+    $(document).ready(function() {
+
+        $("#btnFetch").click(function() {
+// disable button
+//             $(this).removeAttrs("hidden", true);
+             //$(this).attr("disabled", true);
+// add spinner to button
+            $(this).html(
+                '<i class="fa fa-circle-o-notch fa-spin "></i> loading...'
+            );
+        });
+    });
+    $(document).ready(function() {
+
+        $("#btnsingUp").click(function() {
+// disable button
+//             $(this).removeAttrs("hidden", true);
+            //$(this).attr("disabled", true);
+// add spinner to button
+            $(this).html(
+                '<i class="fa fa-circle-o-notch fa-spin "></i> loading...'
+            );
+        });
+    });
+</script>
 
 </html>

@@ -7,8 +7,22 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="../assets/img/favicon.png" type="image/png" />
+    <link rel="icon" href="../../assets/img/favicon.png" type="image/png"/>
     <title>BookVerse</title>
+    <!-- Bootstrap CSS -->
+    <!-- Custom fonts for this template -->
+    <link rel="icon" href="../../assets/img/favicon.png" type="image/png" />
+    <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="../../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../assets/css/bootstrap.css"/>
     <link rel="stylesheet" href="../../assets/vendors/linericon/style.css"/>
@@ -20,9 +34,12 @@
     <link rel="stylesheet" href="../../assets/vendors/animate-css/animate.css"/>
     <link rel="stylesheet" href="../../assets/vendors/jquery-ui/jquery-ui.css"/>
     <!-- main css -->
-    <link rel="stylesheet" href="../../assets/css/style.css"/>
-    <link rel="stylesheet" href="../../assets/css/responsive.css"/>
-    <link rel="stylesheet" href="../../assets/css/login.css"/>
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" href="../../assets/css/responsive.css" />
+    <link rel="stylesheet" href="../../assets/css/login.css" />
+
+    <!-- main FIle -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -37,60 +54,53 @@
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Book Image</h5>
-                    <p class="col-sm-12">Second step posting in progress</p>
-                    <form class="form-signin" method="post" action="/book/post_book_Image" enctype="multipart/form-data">
+                    <h5 class="card-title text-center">Book Images</h5>
+                    <form class="user" method="post" action="/book/post_book_Image" enctype="multipart/form-data">
 
-                        <fieldset>
-                            <div class="col-sm-12">
-                                <h4>Upload 2 Pictures of the book</h4>
-                            </div>
-                        </fieldset>
                         <br/>
-                        <fieldset>
-                            <div class="form-group">
 
-                                <div class="col-sm-12">
-                                    <input type="file" name="file" class="form-control-file"
-                                           id="exampleFormControlFile">
-                                </div>
-                                <hr class="my-4">
-                                <div class="col-sm-12">
-                                    <input type="file" name="file1" class="form-control-file"
-                                           id="exampleFormControlFile1">
-                                </div>
-
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label">Images 1</label>
+                            <div class="col-sm-12">
+                                <input type="file" name="file" class="form-control"
+                                       id="exampleFormControlFile" required>
                             </div>
-                        </fieldset>
+                        </div>
 
-                        <fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label">Images 2</label>
+                            <div class="col-sm-12">
+                                <input type="file" name="file1" class="form-control file"
+                                       id="exampleFormControlFile1"required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-10 control-label">Description</label>
-                        <textarea class="col-sm-12" style="height: 100px" name="imagedescription"
-                           placeholder="Type your description here...." tabindex="5" required></textarea>
-                        </fieldset>
-                        <fieldset>
-                            <div class="form-group">
-                                <label class="col-sm-10 control-label">Book Department</label>
-                                <div class="col-md-12">
-                                    <select name="departmentId" class="selectpicker " data-title="Single Select"
-                                            data-style="btn-default btn-outline"
-                                            data-menu-style="dropdown-blue">
-                                        <option  disabled selected>Select One Department</option>
-                                        {{with .Department}}
-                                            {{range .}}
-                                                <option value={{.Id}}>{{.Department_Name}}</option>
-                                            {{end}}
-                                        {{end}}
-                                    </select>
-                                </div>
-
+                            <div class="col-sm-12">
+                            <textarea class="form-control" style="height: 100px" name="imagedescription"
+                                      placeholder="Type your description here...." tabindex="5" maxlength="150" required></textarea>
                             </div>
-                        </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label">Book Department</label>
+                            <div class="col-sm-12">
+                                <select name="departmentId" class="browser-default custom-select"
+                                        required>
+                                    <option  disabled selected>Select One Department</option>
+                                    {{with .Department}}
+                                        {{range .}}
+                                            <option value={{.Id}}>{{.Department_Name}}</option>
+                                        {{end}}
+                                    {{end}}
+                                </select>-33.900608, 18.569102
+                            </div>
+                        </div>
 
 
                         <hr class="my-4">
 
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Next</button>
+                        <button class="btn btn-primary btn-block" type="submit">Next</button>
 
                     </form>
                 </div>
@@ -142,47 +152,71 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="../../assets/js/jquery-3.2.1.min.js"></script>
-<script src="../../assets/js/popper.js"></script>
-<script src="../../assets/js/bootstrap.min.js"></script>
-<script src="../../assets/js/stellar.js"></script>
-<script src="../../assets/vendors/lightbox/simpleLightbox.min.js"></script>
-<script src="../../assets/vendors/nice-select/js/jquery.nice-select.min.js"></script>
-<script src="../../assets/vendors/isotope/imagesloaded.pkgd.min.js"></script>
-<script src="../../assets/vendors/isotope/isotope-min.js"></script>
-<script src="../../assets/vendors/owl-carousel/owl.carousel.min.js"></script>
-<script src="../../assets/vendors/jquery-ui/jquery-ui.js"></script>
-<script src="../../assets/js/jquery.ajaxchimp.min.js"></script>
-<script src="../../assets/js/mail-script.js"></script>
-<script src="../../assets/vendors/counter-up/jquery.waypoints.min.js"></script>
-<script src="../../assets/vendors/counter-up/jquery.counterup.js"></script>
-<!-- contact js -->
-<script src="../../assets/js/jquery.form.js"></script>
-<script src="../../assets/js/jquery.validate.min.js"></script>
-<script src="../../assets/js/contact.js"></script>
-<!--gmaps Js-->
-<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script-->
-<script src="../../assets/js/gmaps.min.js"></script>
-<script src="../../assets/js/theme.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="../../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../assets/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../../assets/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../assets/js/demo/datatables-demo.js"></script>
+<script src="../../assets/js/jquery-3.2.1.min.js"> </script>
+
+<!-- FIle handling -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/js/fileinput.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/themes/fa/theme.js" type="text/javascript"></script>
+
 </body>
 <script>
-    $('#exampleFormControlFile').click( function() {
+    $('#exampleFormControlFile').click(function () {
 //check whether browser fully supports all File API
-        if (window.File && window.FileReader && window.FileList && window.Blob)
-        {
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
 //get the file size and file type from file input field
             var fsize = $('#i_file')[0].files[0].size;
 
-            if(fsize>1048576) //do something if file size more than 1 mb (1048576)
+            if (fsize > 1048576) //do something if file size more than 1 mb (1048576)
             {
-                alert(fsize +" bites\nToo big!");
-            }else{
-                alert(fsize +" bites\nYou are good to go!");
+                alert(fsize + " bites\nToo big!");
+            } else {
+                alert(fsize + " bites\nYou are good to go!");
             }
-        }else{
+        } else {
             alert("Please upgrade your browser, because your current browser lacks some new features we need!");
         }
     });
+</script>
+<script>
+
+    $("#exampleFormControlFile").fileinput({
+        theme: 'fa',
+        allowedFileExtensions: ['jpg', 'jpeg'],
+        overwriteInitial: false,
+        maxFileSize:2000,
+        maxFilesNum: 1,
+        slugCallback: function (filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+
+    });
+    $("#exampleFormControlFile1").fileinput({
+        theme: 'fa',
+        allowedFileExtensions: ['jpg', 'jpeg'],
+        overwriteInitial: false,
+        maxFileSize:2000,
+        maxFilesNum: 1,
+        slugCallback: function (filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+    });
+    $('button.fileinput-upload').attr("hidden",true);
 </script>
 
 </html>

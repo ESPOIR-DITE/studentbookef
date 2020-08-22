@@ -517,7 +517,7 @@ func NewPostHandler(app *config.Env) http.HandlerFunc {
 		data := PageData{cessionData, myUser, department, language}
 		fmt.Println("voila we are in")
 		files := []string{
-			app.Path + "book/book_page.html",
+			app.Path + "book/new-book.html",
 			app.Path + "template/navigator.html",
 			app.Path + "template/footer.html",
 		}
@@ -710,7 +710,7 @@ func PostBookHandler(app *config.Env) http.HandlerFunc {
 		email := app.Session.GetString(r.Context(), "userEmail")
 		if email == "" {
 			app.Session.Put(r.Context(), "userMessage", "post_error_need_to_signup")
-			http.Redirect(w, r, "/login", 301)
+			http.Redirect(w, r, "/user/login", 301)
 			return
 		}
 
@@ -723,7 +723,7 @@ func PostBookHandler(app *config.Env) http.HandlerFunc {
 		fmt.Println(language, "<<< language")
 
 		//Creating a book first
-		if title != "" && language != "" && author != "" && edition != "" && price != 0.0 {
+		if title != "" && language != "" && author != "" {
 			book := domain.Book{"", title, language, edition, price, author}
 			newBook, err := book_io.CreateBook(book)
 			if err != nil { //if an error occurs we interrupt everything here and return an error message to the user
